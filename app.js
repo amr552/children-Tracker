@@ -179,7 +179,7 @@ const translations = {
         tooltips: {
             language: 'Dili Değiştir',
             analytics: 'Analiz ve Takip',
-            export: 'Veriyi Dışا Aktar',
+            export: 'Veriyi Dışa Aktar',
             import: 'Veriyi İçe Aktar',
             sync: 'QR ile Senkronize Et',
             addChild: 'Yeni Çocuk Ekle',
@@ -383,6 +383,7 @@ function updateLanguage(lang) {
     // Update all translatable elements
     document.querySelectorAll('[data-i18n]').forEach(element => {
         const key = element.dataset.i18n;
+        if (!key) return;
         const translation = getTranslation(key);
         if (translation) {
             element.textContent = translation;
@@ -392,6 +393,7 @@ function updateLanguage(lang) {
     // Update all elements with localized titles
     document.querySelectorAll('[data-i18n-title]').forEach(element => {
         const key = element.dataset.i18nTitle;
+        if (!key) return;
         const translation = getTranslation(key);
         if (translation) {
             element.setAttribute('title', translation);
@@ -798,7 +800,7 @@ function renderMissionCard(mission) {
              ondragstart="handleDragStart(event, '${mission.id}')"
              ondragend="handleDragEnd(event)">
             <div class="mission-header">
-                <div class="mission-icon" title="${mission.title}">${mission.icon}</div>
+                <div class="mission-icon" title="${mission.title.replace(/"/g, '&quot;')}">${mission.icon}</div>
                 <div class="mission-info">
                     <div class="mission-title">${mission.title}</div>
                     ${mission.description ? `<div class="mission-description">${linkifyText(mission.description)}</div>` : ''}
