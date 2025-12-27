@@ -1,0 +1,150 @@
+/* Analytics Page Specific Styles */
+.analytics-page {
+    background-color: #fdf2f4;
+    color: #4a4a4a;
+}
+
+.analytics-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px rgba(255, 182, 193, 0.2);
+    border: 1px solid rgba(255, 182, 193, 0.3);
+}
+
+.growth-card {
+    text-align: center;
+    background: linear-gradient(to bottom, #ffffff, #fff0f5);
+}
+
+.growth-header h2 {
+    color: #ff6b9d;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+}
+
+.tree-container {
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-card {
+    grid-column: 2;
+}
+
+.chart-percentage-row {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+    background: #ffb6c1;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 10px;
+}
+
+.summary-card {
+    grid-column: 1 / 2;
+    text-align: center;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.pink-bg {
+    background: #ffb6c1;
+}
+
+.big-value {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.habit-card {
+    grid-column: 1 / 3;
+}
+
+.habit-title {
+    color: #ffb6c1;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+}
+
+.habit-table-container {
+    overflow-x: auto;
+}
+
+.habit-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.habit-table th,
+.habit-table td {
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid #fff0f5;
+}
+
+.habit-table th {
+    color: #ff6b9d;
+}
+
+.habit-cell {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #ffb6c1;
+    border-radius: 5px;
+    display: inline-block;
+    cursor: default;
+}
+
+.habit-cell.checked {
+    background-color: #ffb6c1;
+    position: relative;
+}
+
+.habit-cell.checked::after {
+    content: '✓';
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 26px;
+}
+
+/* Tree SVG Styles */
+.tree-trunk {
+    fill: #8b4513;
+}
+
+.tree-leaves {
+    fill: #ffb6c1;
+    opacity: 0.8;
+}
+
+.tree-flower {
+    fill: #ff69b4;
+}
+
+@media (max-width: 900px) {
+    .analytics-container {
+        grid-template-columns: 1fr;
+    }
+
+    .chart-card,
+    .summary-card {
+        grid-column: 1;
+    }
+}

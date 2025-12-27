@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليلات المهام - Mission Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="analytics.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="analytics-page">
+    <header class="app-header">
+        <div class="header-content">
+            <button class="btn btn-secondary" onclick="window.location.href='index.html'">←</button>
+            <h1 class="app-title" id="monthTitle">May</h1>
+            <div class="header-actions">
+                <select id="childFilter" class="form-control">
+                    <!-- Children will be added here -->
+                </select>
+                <div class="lang-dropdown">
+                    <button class="btn btn-secondary" id="langToggle" title="Change Language"
+                        data-i18n-title="tooltips.language">
+                        <span class="btn-icon">🌐</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <button class="lang-item" data-lang="ar">العربية</button>
+                        <button class="lang-item" data-lang="en">English</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="analytics-container">
+        <!-- Growth Visualization -->
+        <div class="card growth-card">
+            <div class="growth-header">
+                <h2 id="treeGrowthText">لقد زرعت 0 أشجار هذا الشهر</h2>
+            </div>
+            <div class="tree-container" id="treeContainer">
+                <!-- SVG Tree will be rendered here -->
+            </div>
+        </div>
+
+        <!-- Completion Chart -->
+        <div class="card chart-card">
+            <canvas id="completionChart"></canvas>
+            <div class="chart-percentage-row" id="percentageRow">
+                <!-- Percentages for days will be added here -->
+            </div>
+        </div>
+
+        <!-- Percentage Card -->
+        <div class="card summary-card pink-bg">
+            <h3>نسبة الإكمال</h3>
+            <div class="big-value" id="totalPercentage">0%</div>
+        </div>
+
+        <!-- Habit Tracker -->
+        <div class="card habit-card">
+            <h3 class="habit-title">العادات اليومية</h3>
+            <div class="habit-table-container">
+                <table class="habit-table" id="habitTable">
+                    <thead>
+                        <tr id="habitHeader">
+                            <th>العادة</th>
+                            <!-- Days will be added here -->
+                        </tr>
+                    </thead>
+                    <tbody id="habitBody">
+                        <!-- Habits will be added here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="analytics.js"></script>
+</body>
+
+</html>

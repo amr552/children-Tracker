@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>متتبع مهام الأطفال - Children Mission Tracker</title>
+    <meta name="description" content="تطبيق تفاعلي لتتبع مهام ومسؤوليات الأطفال اليومية">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-content">
+            <h1 class="app-title" data-i18n="app.title">متتبع مهام الأطفال</h1>
+            <div class="header-actions">
+                <div class="lang-dropdown">
+                    <button class="btn btn-secondary" id="langToggle" title="Change Language"
+                        data-i18n-title="tooltips.language">
+                        <span class="btn-icon">🌐</span>
+                    </button>
+                    <div class="lang-menu" id="langMenu">
+                        <button class="lang-item" data-lang="ar">العربية</button>
+                        <button class="lang-item" data-lang="en">English</button>
+                        <button class="lang-item" data-lang="tr">Türkçe</button>
+                        <button class="lang-item" data-lang="es">Español</button>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" id="analyticsBtn" title="Analytics"
+                    data-i18n-title="tooltips.analytics">
+                    <span class="btn-icon">📊</span>
+                </button>
+                <button class="btn btn-secondary" id="exportDataBtn" title="Export Data"
+                    data-i18n-title="tooltips.export">
+                    <span class="btn-icon">📥</span>
+                </button>
+                <button class="btn btn-secondary" id="importDataBtn" title="Import Data"
+                    data-i18n-title="tooltips.import">
+                    <span class="btn-icon">📤</span>
+                </button>
+                <button class="btn btn-secondary" id="syncBtn" title="Sync via QR" data-i18n-title="tooltips.sync">
+                    <span class="btn-icon">🔄</span>
+                </button>
+                <button class="btn btn-primary" id="addChildBtn" title="Add Child" data-i18n-title="tooltips.addChild">
+                    <span class="btn-icon">👶</span>
+                    <span data-i18n="buttons.addChild">إضافة طفل</span>
+                </button>
+            </div>
+            <input type="file" id="importFileInput" accept=".json" style="display: none;">
+        </div>
+    </header>
+
+    <!-- Children Profiles Section -->
+    <section class="children-profiles" id="childrenProfiles">
+        <!-- Profiles will be dynamically added here -->
+    </section>
+
+    <!-- Main Content - Mission Columns -->
+    <main class="mission-board" id="missionBoard">
+        <!-- Mission columns will be dynamically added here -->
+    </main>
+
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+        <div class="empty-state-content">
+            <div class="empty-icon" title="Children Mission Tracker">🎯</div>
+            <h2 data-i18n="empty.title">ابدأ بإضافة طفل</h2>
+            <p data-i18n="empty.description">أضف أطفالك وابدأ في تتبع مهامهم اليومية</p>
+            <button class="btn btn-primary btn-lg" id="addChildBtnEmpty" title="Add Child"
+                data-i18n-title="tooltips.addChild">
+                <span class="btn-icon">👶</span>
+                <span data-i18n="buttons.addChild">إضافة طفل</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="fabBtn" title="Add Mission" data-i18n-title="tooltips.plus">
+        <span class="fab-icon">➕</span>
+    </button>
+
+    <!-- Add/Edit Child Modal -->
+    <div class="modal" id="childModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="childModalTitle" data-i18n="modal.addChild">إضافة طفل جديد</h2>
+                <button class="modal-close" id="closeChildModal" title="Close"
+                    data-i18n-title="tooltips.close">✕</button>
+            </div>
+            <form id="childForm">
+                <div class="form-group">
+                    <label for="childName" data-i18n="form.childName">اسم الطفل</label>
+                    <input type="text" id="childName" required placeholder="أدخل اسم الطفل">
+                </div>
+                <div class="form-group">
+                    <label for="childPhoto" data-i18n="form.childPhoto">صورة الطفل (اختياري)</label>
+                    <input type="file" id="childPhoto" accept="image/*">
+                    <div class="photo-preview" id="photoPreview"></div>
+                    <button type="button" class="btn-remove-photo" id="removePhoto" style="display: none;">
+                        <span data-i18n="buttons.removePhoto">إزالة الصورة</span>
+                    </button>
+                </div>
+                <div class="form-group">
+                    <label data-i18n="form.avatarColor">لون الصورة الرمزية</label>
+                    <div class="color-picker">
+                        <input type="radio" name="childColor" value="#FFB6C1" id="color1" checked>
+                        <label for="color1" style="background: #FFB6C1;"></label>
+
+                        <input type="radio" name="childColor" value="#87CEEB" id="color2">
+                        <label for="color2" style="background: #87CEEB;"></label>
+
+                        <input type="radio" name="childColor" value="#98D8C8" id="color3">
+                        <label for="color3" style="background: #98D8C8;"></label>
+
+                        <input type="radio" name="childColor" value="#F7DC6F" id="color4">
+                        <label for="color4" style="background: #F7DC6F;"></label>
+
+                        <input type="radio" name="childColor" value="#DDA0DD" id="color5">
+                        <label for="color5" style="background: #DDA0DD;"></label>
+
+                        <input type="radio" name="childColor" value="#FFB347" id="color6">
+                        <label for="color6" style="background: #FFB347;"></label>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelChildBtn"
+                        data-i18n="buttons.cancel">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="buttons.save">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add/Edit Mission Modal -->
+    <div class="modal" id="missionModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="missionModalTitle" data-i18n="modal.addMission">إضافة مهمة جديدة</h2>
+                <button class="modal-close" id="closeMissionModal" title="Close"
+                    data-i18n-title="tooltips.close">✕</button>
+            </div>
+            <form id="missionForm">
+                <div class="form-group">
+                    <label for="missionChild" data-i18n="form.selectChild">اختر الطفل</label>
+                    <select id="missionChild" required>
+                        <!-- Options will be dynamically added -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="missionTitle" data-i18n="form.missionTitle">عنوان المهمة</label>
+                    <input type="text" id="missionTitle" required placeholder="مثال: ترتيب الغرفة">
+                </div>
+                <div class="form-group">
+                    <label for="missionDescription" data-i18n="form.description">الوصف (اختياري)</label>
+                    <textarea id="missionDescription" rows="3" placeholder="تفاصيل إضافية عن المهمة"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="missionCategory" data-i18n="form.category">الفئة</label>
+                        <select id="missionCategory" required>
+                            <option value="chores" data-i18n="categories.chores">الأعمال المنزلية</option>
+                            <option value="homework" data-i18n="categories.homework">الواجبات المدرسية</option>
+                            <option value="sports" data-i18n="categories.sports">الرياضة</option>
+                            <option value="music" data-i18n="categories.music">الموسيقى</option>
+                            <option value="bedtime" data-i18n="categories.bedtime">وقت النوم</option>
+                            <option value="reading" data-i18n="categories.reading">القراءة</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="missionIcon" data-i18n="form.icon">الأيقونة</label>
+                        <select id="missionIcon" required>
+                            <option value="🧹">🧹 مكنسة</option>
+                            <option value="📚">📚 كتب</option>
+                            <option value="⚽">⚽ كرة</option>
+                            <option value="🎵">🎵 موسيقى</option>
+                            <option value="🛏️">🛏️ سرير</option>
+                            <option value="📖">📖 قراءة</option>
+                            <option value="🍽️">🍽️ أطباق</option>
+                            <option value="👕">👕 ملابس</option>
+                            <option value="🎨">🎨 فن</option>
+                            <option value="🦷">🦷 أسنان</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="missionStartTime" data-i18n="form.startTime">وقت البدء (اختياري)</label>
+                        <input type="time" id="missionStartTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="missionEndTime" data-i18n="form.endTime">وقت الانتهاء (اختياري)</label>
+                        <input type="time" id="missionEndTime">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="missionPoints" data-i18n="form.points">النقاط / المكافأة (اختياري)</label>
+                    <input type="number" id="missionPoints" min="0" placeholder="10">
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelMissionBtn"
+                        data-i18n="buttons.cancel">إلغاء</button>
+                    <button type="submit" class="btn btn-primary" data-i18n="buttons.save">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2 data-i18n="modal.confirmDelete">تأكيد الحذف</h2>
+                <button class="modal-close" id="closeDeleteModal" title="Close"
+                    data-i18n-title="tooltips.close">✕</button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteMessage"></p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-secondary" id="cancelDeleteBtn"
+                    data-i18n="buttons.cancel">إلغاء</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn"
+                    data-i18n="buttons.delete">حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div class="modal" id="qrModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h2 data-i18n="modal.syncData">مزامنة البيانات</h2>
+                <button class="modal-close" id="closeQRModal" title="Close" data-i18n-title="tooltips.close">✕</button>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <div id="qrcode"></div>
+                <p data-i18n="modal.scanSync">امسح الكود بجهاز آخر للمزامنة</p>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-primary" id="closeQRBtn" data-i18n="buttons.close">إغلاق</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+    <script src="helpers.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
